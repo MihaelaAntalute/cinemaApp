@@ -26,8 +26,11 @@ public class OrderService {
     private TicketRepository ticketRepository;
     private OrderRepository orderRepository;
 
+    private MailService mailService;
+
     @Autowired
-    public OrderService(OrderRepository orderRepository, TicketRepository ticketRepository, SeatRepository seatRepository, ProjectionRepository projectionRepository, UserRepository userRepository, CinemaRoomService cinemaRoomService, MovieRepository movieRepository) {
+    public OrderService(MailService mailService, OrderRepository orderRepository, TicketRepository ticketRepository, SeatRepository seatRepository, ProjectionRepository projectionRepository, UserRepository userRepository, CinemaRoomService cinemaRoomService, MovieRepository movieRepository) {
+        this.mailService = mailService;
         this.orderRepository = orderRepository;
         this.ticketRepository = ticketRepository;
         this.seatRepository = seatRepository;
@@ -64,6 +67,7 @@ public class OrderService {
             newOrder.getTicketList().add(foundTicket);
             foundTicket.setOrder(newOrder);
         }
+        mailService.sendSimpleMessage("antalutemihaela32@gmail.com","asdfsadf","asdfsadf");
         newOrder.setTotalPrice(totalPriceOrder);
         return orderRepository.save(newOrder);
     }

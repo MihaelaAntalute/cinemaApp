@@ -3,8 +3,10 @@ package com.cinema.cinemaapp.service;
 import com.cinema.cinemaapp.DTO.AddCinemaRoomDTO;
 import com.cinema.cinemaapp.DTO.ExtraPriceDTO;
 import com.cinema.cinemaapp.model.CinemaRoom;
+import com.cinema.cinemaapp.model.Movie;
 import com.cinema.cinemaapp.model.Seat;
 import com.cinema.cinemaapp.repository.CinemaRoomRepository;
+import com.cinema.cinemaapp.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -15,11 +17,15 @@ import java.util.Optional;
 
 @Service
 public class CinemaRoomService {
+
+
     private CinemaRoomRepository cinemaRoomRepository;
+    private MovieRepository movieRepository;
 
     @Autowired
-    public CinemaRoomService(CinemaRoomRepository cinemaRoomRepository) {
+    public CinemaRoomService(CinemaRoomRepository cinemaRoomRepository, MovieRepository movieRepository) {
         this.cinemaRoomRepository = cinemaRoomRepository;
+        this.movieRepository = movieRepository;
     }
 
     public CinemaRoom addCinemaRoom(AddCinemaRoomDTO addCinemaRoomDTO) {
@@ -71,4 +77,37 @@ public class CinemaRoomService {
                 .filter((seat -> seat.getSeatRow() == row && seat.getSeatCol() == col))
                 .findFirst();
     }
+
+    public List<CinemaRoom> getAllCinemas() {
+        return cinemaRoomRepository.findAll();
+    }
+
+    public Optional<CinemaRoom> getCinemaRoomById(Long cinemaRoomId) {
+        return cinemaRoomRepository.findById(cinemaRoomId);
+    }
+
+    public CinemaRoom updateCinemaRoom(AddCinemaRoomDTO addCinemaRoomDTO, Long cinemaRoomId) {
+        CinemaRoom foundCinemaRoom = cinemaRoomRepository.findById(cinemaRoomId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "the cinema was not found"));
+        foundCinemaRoom.setNumberOfRows(addCinemaRoomDTO.getNumberOfCols());
+        foundCinemaRoom.setNumbersOfCols(addCinemaRoomDTO.getNumberOfCols());
+        return cinemaRoomRepository.save(foundCinemaRoom);
+    }
+
+    public void deleteCinemaRoom(Long cinemaRoomId) {
+        CinemaRoom foundCinemaRoom = cinemaRoomRepository.findById(cinemaRoomId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "the cinema was not found"));
+        cinemaRoomRepository.delete(foundCinemaRoom);
+    }
+    ////Care este valoarea tuturor biletelor vandute intr-o anumita zi (la un film sau la toate filmele)
+//    public Double getTotalPriceTicketsByMovie(Long movieId){
+//        Movie foundMovie = movieRepository.findById(movieId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "the movie was not found"));
+//   Double totalPriceOfAllTickets = 0.0;
+//
+//
+
+
+    //1.daca ticketele apartine unui order,sa le adaugam pretul la pretul total
+//    foundMovie.getProjectionList().
+//    }
+
+    ////Cate bilete s-au vandut la un anumit film sau la toate filmele
 }

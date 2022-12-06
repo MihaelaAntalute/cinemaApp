@@ -6,6 +6,7 @@ import com.cinema.cinemaapp.model.Projection;
 import com.cinema.cinemaapp.model.Seat;
 import com.cinema.cinemaapp.repository.MovieRepository;
 import com.cinema.cinemaapp.service.MovieService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,7 @@ public class MovieController {
     }
 
     @PostMapping("/add")
-    public Movie addMovie(@RequestBody AddMovieDTO addMovieDTO) {
+    public Movie addMovie(@RequestBody AddMovieDTO addMovieDTO) throws JsonProcessingException {
         return movieService.addMovie(addMovieDTO);
     }
 
