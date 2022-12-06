@@ -5,11 +5,13 @@ import java.util.List;
 public class AddMovieDTO {
     private String movieName;
     private Long cinemaRoomId;
+    private Integer price;
     private List<ProjectionsDTO> dates;
 
-    public AddMovieDTO(String movieName, Long cinemaRoomId, List<ProjectionsDTO> dates) {
+    public AddMovieDTO(String movieName, Long cinemaRoomId, Integer price,List<ProjectionsDTO> dates) {
         this.movieName = movieName;
         this.cinemaRoomId = cinemaRoomId;
+        this.price = price;
         this.dates = dates;
     }
 
@@ -35,5 +37,13 @@ public class AddMovieDTO {
 
     public void setDates(List<ProjectionsDTO> dates) {
         this.dates = dates;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 }

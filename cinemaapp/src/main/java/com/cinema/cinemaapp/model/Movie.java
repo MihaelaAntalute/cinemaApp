@@ -16,6 +16,9 @@ public class Movie {
     @Column
     private String movieName;
 
+    @Column
+    private Integer price;
+
 
     @OneToMany(mappedBy = "movie", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference(value = "movie-projection")
@@ -29,11 +32,12 @@ public class Movie {
     public Movie() {
     }
 
-
-    public Movie(Long id, String movieName, List<Projection> projectionList) {
+    public Movie(Long id, String movieName, Integer price, List<Projection> projectionList, CinemaRoom cinemaRoom) {
         this.id = id;
         this.movieName = movieName;
+        this.price = price;
         this.projectionList = projectionList;
+        this.cinemaRoom = cinemaRoom;
     }
 
     public Long getId() {
@@ -69,5 +73,13 @@ public class Movie {
 
     public void setCinemaRoom(CinemaRoom cinemaRoom) {
         this.cinemaRoom = cinemaRoom;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 }

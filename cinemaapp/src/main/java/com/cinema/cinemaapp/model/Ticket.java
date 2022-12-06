@@ -23,7 +23,7 @@ public class Ticket {
     @JsonBackReference(value ="projection-ticket")
     private Projection projection;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.ALL)
     @JoinColumn(name="order_id")
     @JsonBackReference(value ="order-ticket")
     private Order order;
@@ -77,4 +77,6 @@ public class Ticket {
     public void setProjection(Projection projection) {
         this.projection = projection;
     }
+
+
 }
