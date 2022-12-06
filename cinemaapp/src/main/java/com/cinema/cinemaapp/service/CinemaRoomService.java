@@ -3,8 +3,10 @@ package com.cinema.cinemaapp.service;
 import com.cinema.cinemaapp.DTO.AddCinemaRoomDTO;
 import com.cinema.cinemaapp.DTO.ExtraPriceDTO;
 import com.cinema.cinemaapp.model.CinemaRoom;
+import com.cinema.cinemaapp.model.Movie;
 import com.cinema.cinemaapp.model.Seat;
 import com.cinema.cinemaapp.repository.CinemaRoomRepository;
+import com.cinema.cinemaapp.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -16,10 +18,12 @@ import java.util.Optional;
 @Service
 public class CinemaRoomService {
     private CinemaRoomRepository cinemaRoomRepository;
+    private MovieRepository movieRepository;
 
     @Autowired
-    public CinemaRoomService(CinemaRoomRepository cinemaRoomRepository) {
+    public CinemaRoomService(CinemaRoomRepository cinemaRoomRepository,MovieRepository movieRepository) {
         this.cinemaRoomRepository = cinemaRoomRepository;
+        this.movieRepository = movieRepository;
     }
 
     public CinemaRoom addCinemaRoom(AddCinemaRoomDTO addCinemaRoomDTO) {
@@ -71,4 +75,10 @@ public class CinemaRoomService {
                 .filter((seat -> seat.getSeatRow() == row && seat.getSeatCol() == col))
                 .findFirst();
     }
+
+
+//    public CinemaRoom getAllSeatsByMovie(Long movieId){
+//        Movie foundMovie = movieRepository.findById(movieId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "the movie was not found"));
+// return foundMovie.getCinemaRoom().getSeatList();
+//    }
 }
