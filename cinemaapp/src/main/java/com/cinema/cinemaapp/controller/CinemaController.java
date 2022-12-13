@@ -5,10 +5,9 @@ import com.cinema.cinemaapp.DTO.AddCinemaRoomDTO;
 import com.cinema.cinemaapp.model.CinemaRoom;
 import com.cinema.cinemaapp.service.CinemaRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/cinema")
@@ -24,6 +23,22 @@ public class CinemaController {
     public CinemaRoom addCinemaRoom(@RequestBody AddCinemaRoomDTO addCinemaRoomDTO) {
         return cinemaRoomService.addCinemaRoom(addCinemaRoomDTO);
     }
+
+    @GetMapping("/")
+    public List<CinemaRoom> getCinemaRooms() {
+        return cinemaRoomService.getCinemaRooms();
+    }
+
+    @PutMapping("/update/{cinemaRoomId}")
+    public CinemaRoom updateCinemaRoom(@RequestBody AddCinemaRoomDTO addCinemaRoomDTO, @PathVariable Long cinemaRoomId) {
+        return cinemaRoomService.updateCinemaRoom(addCinemaRoomDTO, cinemaRoomId);
+    }
+
+    @DeleteMapping("/delete/{cinemaRoomId}")
+    public void deleteCinemaRoom(@PathVariable Long cinemaRoomId) {
+        cinemaRoomService.deleteCinemaRoom(cinemaRoomId);
+    }
+
 
 
 }

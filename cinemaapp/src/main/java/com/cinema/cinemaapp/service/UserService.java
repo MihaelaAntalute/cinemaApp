@@ -35,6 +35,7 @@ public class UserService {
         }
         User user = new User();
         user.setUsername(newUser.getUsername());
+        user.setEmail(newUser.getEmail());
         user.setPassword(passwordEncoder.encode(newUser.getPassword()));
         Role foundRole = roleRepository.findByRoleType(RoleType.ROLE_CLIENT);
         user.getRoleList().add(foundRole);

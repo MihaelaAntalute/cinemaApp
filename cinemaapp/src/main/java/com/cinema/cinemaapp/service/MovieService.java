@@ -66,14 +66,14 @@ public class MovieService {
     private void addMovieGenres(Movie movieToBeAdd, JsonNode responseMovieDetailsBody) {
         List<String> genres = new ArrayList<>();
         ArrayNode genresJson = (ArrayNode) responseMovieDetailsBody.path("genres");
-        for(JsonNode genreJson: genresJson){
+        for (JsonNode genreJson : genresJson) {
             genres.add(genreJson.path("name").asText());
         }
         movieToBeAdd.setGenres(genres);
     }
 
     private void addMovieDetails(Movie movieToBeAdd, JsonNode responseMovieBody) {
-        if (responseMovieBody.path("results").isEmpty()){
+        if (responseMovieBody.path("results").isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You can't add a movie with this name");
         }
         JsonNode firstResult = responseMovieBody.path("results").get(0);
@@ -172,6 +172,13 @@ public class MovieService {
                 .anyMatch(ticket -> ticket.getAvailable());
     }
 
+//    public Movie updateMovie(AddMovieDTO addMovieDTO, Long movieId) {
+//        Movie foundMovie = movieRepository.findById(movieId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "the movie was not found"));
+//        foundMovie.setMovieName(addMovieDTO.getMovieName());
+//        foundMovie.setCinemaRoom(addMovieDTO.getCinemaRoomId());
+//        foundMovie.set
+//    }
+//
 
 }
 

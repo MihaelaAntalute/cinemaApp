@@ -1,24 +1,42 @@
 package com.cinema.cinemaapp.service;
 
+import com.cinema.cinemaapp.model.Order;
+import com.cinema.cinemaapp.model.Ticket;
+import com.itextpdf.text.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import java.util.List;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 
 @Service
 public class MailService {
 
-    @Autowired
+
     private JavaMailSender emailSender;
+    private PdfService pdfService;
 
-    public void sendSimpleMessage(
-            String to, String subject, String text) {
+    @Autowired
+    public MailService(JavaMailSender emailSender, PdfService pdfService) {
+        this.emailSender = emailSender;
+        this.pdfService = pdfService;
+    }
 
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("cursjustcodeit@gmail.com");
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(text);
+    public void sendOrderConfirmationMessage(
+            String recepientMail, Order order) throws MessagingException, DocumentException {
+
+        MimeMessage message = emailSender.createMimeMessage();
+
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        helper.setFrom("cursjustcodeit@gmail.com");
+        helper.setTo(recepientMail);
+
+        helper.setSubject("Rezervarea ta la filmul " +order.getTicketList().get(0).getProjection().getMovie().getMovieName());
+        helper.setText("Ai atasate cele " +order.getTicketList().size()+ " bilete pentru fimul " +order.getTicketList().get(0).getProjection().getMovie().getMovieName());
+        helper.addAttachment("ticket.pdf", pdfService.generateTicketPdf(order));
         emailSender.send(message);
 
     }

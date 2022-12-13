@@ -31,6 +31,10 @@ public class MovieController {
     public List<Projection> getAllProjectionsAvailable(@PathVariable Long movieId) {
         return movieService.getAllProjectionsAvailable(movieId);
     }
+//   @PostMapping("/update/{movieId}")
+//    public Movie updateMovie(@RequestBody AddMovieDTO addMovieDTO,@PathVariable Long movieId){
+//        return movieService.
+//   }
 
 
 

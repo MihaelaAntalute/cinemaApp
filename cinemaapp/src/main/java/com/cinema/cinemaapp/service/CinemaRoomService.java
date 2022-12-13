@@ -71,4 +71,21 @@ public class CinemaRoomService {
                 .filter((seat -> seat.getSeatRow() == row && seat.getSeatCol() == col))
                 .findFirst();
     }
+
+    public CinemaRoom updateCinemaRoom(AddCinemaRoomDTO addCinemaRoomDTO, Long cinemaRoomId) {
+        CinemaRoom foundCinemaRoom = cinemaRoomRepository.findById(cinemaRoomId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "the cinema was not found"));
+        foundCinemaRoom.setNumberOfRows(addCinemaRoomDTO.getNumberOfRows());
+        foundCinemaRoom.setNumbersOfCols(addCinemaRoomDTO.getNumberOfCols());
+        return cinemaRoomRepository.save(foundCinemaRoom);
+    }
+
+    public List<CinemaRoom> getCinemaRooms() {
+        return cinemaRoomRepository.findAll();
+    }
+
+    public void deleteCinemaRoom(Long cinemaRoomId) {
+        CinemaRoom foundCinemaRoom = cinemaRoomRepository.findById(cinemaRoomId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "the cinema was not found"));
+        cinemaRoomRepository.delete(foundCinemaRoom);
+    }
+
 }
